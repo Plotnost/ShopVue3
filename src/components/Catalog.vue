@@ -26,7 +26,7 @@ interface Product {
 export default defineComponent({
   name: 'Catalog',
   props: {
-    addToCart: Function as () => (product: Product) => void, // Типизируем функцию как пропс
+    addToCart: Function as () => (product: Product) => void,
   },
   data() {
     return {
