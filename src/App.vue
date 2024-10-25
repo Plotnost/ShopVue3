@@ -20,24 +20,42 @@ window.addEventListener('hashchange', () => {
   currentPath.value = window.location.hash;
 });
 
-// Определяем, какой компонент отображать в зависимости от пути
+// Определяем текущий компонент
 const currentView = computed(() => {
-  return routes[currentPath.value.slice(1) || '/'] || Catalog; // возвращаем Catalog по умолчанию
+  return routes[currentPath.value.slice(1) || '/'] || Catalog;
 });
+
+// Состояние корзины
+const cart = ref([]);
+
+// Функция для добавления товара в корзину
+const addToCart = (product) => {
+  cart.value.push(product);
+};
+
+// Функция для удаления товара из корзины
+const removeFromCart = (productId) => {
+  cart.value = cart.value.filter((item) => item.id !== productId);
+};
 </script>
 
 <template>
   <nav>
     <a href="#/">Каталог</a> |
     <a href="#/cart">Корзина</a> |
+    <a href="#/product">Карточка товара</a>
   </nav>
 
-  <!-- Динамическое отображение компонента -->
-  <component :is="currentView" />
+  <!-- Динамическое отображение компонента с передачей состояния корзины -->
+  <component
+    :is="currentView"
+    :cart="cart"
+    :add-to-cart="addToCart"
+    :remove-from-cart="removeFromCart"
+  />
 </template>
 
 <style scoped>
-/* Пример стилей */
 nav a {
   margin-right: 10px;
   text-decoration: none;
