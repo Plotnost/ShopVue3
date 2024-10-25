@@ -30,7 +30,6 @@ const currentView = computed(() => {
   <nav>
     <a href="#/">Каталог</a> |
     <a href="#/cart">Корзина</a> |
-    <a href="#/product">Карточка товара</a>
   </nav>
 
   <!-- Динамическое отображение компонента -->

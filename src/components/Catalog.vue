@@ -13,7 +13,7 @@
       <!-- Список товаров -->
       <div class="product-list">
         <div v-for="product in filteredProducts" :key="product.id" class="product-item">
-          <h3>{{ product.name }}</h3>
+          <a href="#/product">{{ product.name }}</a>
           <p>Цена: {{ product.price }} ₽</p>
           <button @click="addToCart(product)">Добавить в корзину</button>
         </div>
