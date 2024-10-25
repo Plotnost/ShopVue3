@@ -1,52 +1,51 @@
 <!-- src/App.vue -->
-<script setup>
-import { ref, computed } from 'vue';
+<script setup lang="ts">
+import { ref, computed, Ref } from 'vue';
 import Catalog from './components/Catalog.vue';
 import Cart from './components/Cart.vue';
 import Product from './components/Product.vue';
 
-// Определяем маршруты
-const routes = {
+// Типы для товара и корзины
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+// Определение маршрутов
+const routes: Record<string, any> = {
   '/': Catalog,
   '/cart': Cart,
   '/product': Product,
 };
 
-// Отслеживание текущего пути
+// Текущий путь и компонент
 const currentPath = ref(window.location.hash);
-
-// Обновление пути при изменении хэша
-window.addEventListener('hashchange', () => {
-  currentPath.value = window.location.hash;
-});
-
-// Определяем текущий компонент
 const currentView = computed(() => {
   return routes[currentPath.value.slice(1) || '/'] || Catalog;
 });
 
-// Состояние корзины
-const cart = ref([]);
-
-// Функция для добавления товара в корзину
-const addToCart = (product) => {
+// Корзина и функции для управления
+const cart: Ref<Product[]> = ref([]);
+const addToCart = (product: Product) => {
   cart.value.push(product);
 };
-
-// Функция для удаления товара из корзины
-const removeFromCart = (productId) => {
+const removeFromCart = (productId: number) => {
   cart.value = cart.value.filter((item) => item.id !== productId);
 };
+
+// Слушатель события для изменения пути
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash;
+});
 </script>
 
 <template>
   <nav>
     <a href="#/">Каталог</a> |
-    <a href="#/cart">Корзина</a> |
-    <a href="#/product">Карточка товара</a>
+    <a href="#/cart">Корзина</a>
   </nav>
 
-  <!-- Динамическое отображение компонента с передачей состояния корзины -->
   <component
     :is="currentView"
     :cart="cart"

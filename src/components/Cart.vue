@@ -12,12 +12,20 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+export default defineComponent({
   name: 'Cart',
   props: {
-    cart: Array, // Пропс для получения товаров в корзине
-    removeFromCart: Function, // Пропс для функции удаления
+    cart: Array as () => Product[], // Пропс для товаров в корзине
+    removeFromCart: Function as () => (productId: number) => void, // Функция удаления
   },
-};
+});
 </script>
